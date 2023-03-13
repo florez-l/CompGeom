@@ -2,6 +2,7 @@
 ## @author Leonardo Florez-Valencia (florez-l@javeriana.edu.co)
 ## =========================================================================
 
+import functools
 import Polygon
 
 '''
@@ -17,10 +18,66 @@ def triangulate_monotone_polygon( P, T ):
 
   # 2. Is the input polygon a triangle?
 
-  # 3. Sort points
-  U = [ ( t, P[ t ] ) for t in T ]
-  print( U )
-  
+  # 3. Sort polygon points
+  def point_comparison( a, b ):
+    if a[ 1 ][ 1 ] == b[ 1 ][ 1 ]:
+      return a[ 1 ][ 0 ] - b[ 1 ][ 0 ]
+    else:
+      return b[ 1 ][ 1 ] - a[ 1 ][ 1 ]
+    # end if
+  # end def
+  U = \
+    sorted( \
+      [ ( i, P[ ccwT[ i ] ] ) for i in range( len( ccwT ) ) ],
+      key = functools.cmp_to_key( point_comparison ) \
+    )
+
+  # 4. Mark chains
+  C = Polygon.chains( P, U[ 0 ][ 0 ], U[ -1 ][ 0 ], ccwT )
+
+  # 5. Initialize output
+  D = []
+  for i in range( len( ccwT ) ):
+    D += [ [ ccwT[ i ], ccwT[ ( i + 1 ) % len( ccwT ) ] ] ]
+  # end for
+
+  # 6. Main loop
+  S = [ U[ 0 ], U[ 1 ] ]
+  for j in range( 2, len( U ) - 1 ):
+    if C[ U[ j ][ 0 ] ] != C[ S[ -1 ][ 0 ] ]:
+      while len( S ) > 1:
+        pv = S[ -1 ]
+        S.pop( )
+        D += [ [ ccwT[ U[ j ][ 0 ] ], ccwT[ pv[ 0 ] ] ] ]
+        pv = S[ -1 ]
+      # end while
+      S = [ U[ j - 1 ], U[ j ] ]
+    else:
+      S.pop( )
+
+      stop = False
+      while not stop:
+
+        print( 'Check from', U[ j ][ 0 ], 'to', S[ -1 ][ 0 ] )
+        sys.exit( 1 )
+        
+      # end while
+
+      S += [ U[ j ] ]
+    # end if
+  # end for
+
+  # 7. Remaining diagonals
+  if len( S ) > 2:
+    S.pop( )
+    while len( S ) > 1:
+      pv = S[ -1 ]
+      S.pop( )
+      D += [ [ ccwT[ U[ n ][ 0 ] ], ccwT[ pv[ 0 ] ] ] ]
+    # end while
+  # end if
+
+  return D
 # end def
 
 ## -------------------------------------------------------------------------
@@ -33,8 +90,9 @@ if __name__ == '__main__':
 
   # Read data
   P, T = Polygon.load_polygons_from_OBJ( sys.argv[ 1 ] )
+  D = []
   for t in T:
-    triangulate_monotone_polygon( P, t )
+    D += triangulate_monotone_polygon( P, t )
   # end for
 # end if
 

@@ -23,21 +23,18 @@ def area( P, T = None ):
 '''
 Compute the chains of a 2D polygon
 '''
-def chains( P, s, e, T ):
-  chains = [ 'positive' for i in range( len( T ) ) ]
-  i = s
-  while i != e:
-    chains[ T[ i ] ] = 'negative'
-    i = ( i + 1 ) % len( T )
-  # end while
-  return chains
-# end def
-
-'''
-Compute the chains of a 2D polygon
-'''
-def chains( P, s, e ):
-  return chains( P, s, e, [ i for i in range( len( P ) ) ] )
+def chains( P, s, e, T = None ):
+  if T is None:
+    return chains( P, s, e, [ i for i in range( len( P ) ) ] )
+  else:
+    chains = [ 'positive' for i in range( len( T ) ) ]
+    i = s
+    while i != e:
+      chains[ i ] = 'negative'
+      i = ( i + 1 ) % len( T )
+    # end while
+    return chains
+  # end if
 # end def
 
 '''
