@@ -2,6 +2,8 @@
 ## @author Leonardo Florez-Valencia (florez-l@javeriana.edu.co)
 ## =========================================================================
 
+import Helpers
+
 '''
 Compute the area of a 2D polygon represented by a sequence of points P
 and a sequence of vertices T
@@ -39,6 +41,33 @@ def chains( P, s, e, T = None ):
 
 '''
 '''
+def edge_inside( P, s, e, T = None ):
+  if T is None:
+    return edge_inside( P, s, e, [ i for i in range( len( P ) ) ] )
+  else:
+    uC = chains( P, s, e, T )
+    inside = True
+    i = s
+    while i != e and inside:
+      z = Helpers.side( ( s, e ), P[ T[ i ] ] )
+
+      lasjdqlwkjelqñwkeñlqmwñlmk
+      
+      
+      inside = inside and ( uC[ i ] == 'negative' )
+      i = ( i + 1 ) % len( uC )
+    # end while
+    i = e
+    while i != s and inside:
+      inside = inside and ( uC[ i ] == 'positive' )
+      i = ( i + 1 ) % len( uC )
+    # end while
+    return inside
+  # end if
+# end def
+
+'''
+'''
 def load_polygons_from_OBJ( fname ):
   f = open( fname, 'r' )
   lines = f.readlines( )
@@ -68,13 +97,12 @@ def save_polygons_as_OBJ( fname, P, T ):
     # end for
     s += '\n'
   # end for
-  s = '\n# Indices\n'
+  s += '\n# Indices\n'
   for t in T:
     s += 'l'
     for i in t:
       s += ' ' + str( i + 1 )
     # end for
-    s += ' ' + str( t[ 0 ] + 1 )
     s += '\n'
   # end for
   f = open( fname, 'w' )

@@ -54,15 +54,20 @@ def triangulate_monotone_polygon( P, T ):
       S = [ U[ j - 1 ], U[ j ] ]
     else:
       S.pop( )
-
       stop = False
-      while not stop:
-
-        print( 'Check from', U[ j ][ 0 ], 'to', S[ -1 ][ 0 ] )
-        sys.exit( 1 )
-        
+      pv = None
+      while not stop and len( S ) > 0:
+        if Polygon.edge_inside( P, U[ j ][ 0 ], S[ -1 ][ 0 ], ccwT ):
+          pv = S[ -1 ]
+          D += [ [ ccwT[ U[ j ][ 0 ] ], ccwT[ S[ -1 ][ 0 ] ] ] ]
+          S.pop( )
+        else:
+          stop = True
+        # end if
       # end while
-
+      if not pv is None:
+        S += [ pv ]
+      # end if
       S += [ U[ j ] ]
     # end if
   # end for
@@ -71,9 +76,8 @@ def triangulate_monotone_polygon( P, T ):
   if len( S ) > 2:
     S.pop( )
     while len( S ) > 1:
-      pv = S[ -1 ]
+      D += [ [ ccwT[ U[ n ][ 0 ] ], ccwT[ S[ -1 ][ 0 ] ] ] ]
       S.pop( )
-      D += [ [ ccwT[ U[ n ][ 0 ] ], ccwT[ pv[ 0 ] ] ] ]
     # end while
   # end if
 
@@ -94,6 +98,8 @@ if __name__ == '__main__':
   for t in T:
     D += triangulate_monotone_polygon( P, t )
   # end for
+  Polygon.save_polygons_as_OBJ( sys.argv[ 2 ], P, D )
 # end if
+
 
 ## eof - $RCSfile$
