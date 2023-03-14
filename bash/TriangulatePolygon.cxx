@@ -56,7 +56,8 @@ void triangulate( const _Pnts& points, const _Poly& polygon )
       typename _TrDS::Halfedge_handle h =
         trds.edges_push_back( typename _TrDS::Halfedge( ), typename _TrDS::Halfedge( ) );
       h->_TrDS::Halfedge::Base::set_next( h->opposite( ) );
-      h->opposite( )->_TrDS::Halfedge::Base::set_next( h );
+      // h->opposite( )->_TrDS::Halfedge::Base::set_next( h );
+      eHnd->set_next( h );
       tr.set_prev( h, eHnd->opposite( ) );
       tr.set_prev( h->opposite( ), h );
       tr.set_vertex( h, eHnd->opposite( )->vertex( ) );
