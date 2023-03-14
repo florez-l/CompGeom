@@ -6,6 +6,10 @@
 cmake_minimum_required(VERSION 3.0)
 project(MyConvexHullAlgorithms VERSION 1.0.0.1)
 
+# -- Output dirs
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
+
 # -- Packages
 find_package(CGAL REQUIRED)
 
