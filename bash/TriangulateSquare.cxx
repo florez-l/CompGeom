@@ -9,6 +9,7 @@
 #include <CGAL/HalfedgeDS_list.h>
 
 #include <CGAL_EXT/Polygon_decorator.h>
+#include <CGAL_EXT/Polygon_IO_OBJ.h>
 
 // -------------------------------------------------------------------------
 // Types
@@ -42,22 +43,12 @@ int main( int argc, char** argv )
     );
   triang.create_diagonal( 3, 0 );
 
-  for( TDS::Face_handle f: ds.face_handles( ) )
-  {
-    TDS::Halfedge_handle i = f->halfedge( );
-    std::cout
-      << i->vertex( )->point( ) << " "
-      << i->opposite( )->vertex( )->point( ) << std::endl;
-    i = i->next( );
-    while( i != f->halfedge( ) )
-    {
-      std::cout
-        << i->vertex( )->point( ) << " "
-        << i->opposite( )->vertex( )->point( ) << std::endl;
-      i = i->next( );
-    } // end if
-    std::cout << "===========" << std::endl;
-  } // end for
+  // Save results
+  CGAL_EXT::Polygon_saveOBJ(
+    "square_triangles.obj", points.begin( ), points.end( ), ds
+    );
+
+  // Show a final report
   std::cout << "Vertices: " << ds.size_of_vertices( ) << std::endl;
   std::cout << "Edges   : " << ds.size_of_halfedges( ) << std::endl;
   std::cout << "Faces   : " << ds.size_of_faces( ) << std::endl;

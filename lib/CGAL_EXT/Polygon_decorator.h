@@ -70,6 +70,7 @@ namespace CGAL_EXT
     Halfedge_handle create_border_edge( const TNatural& i, const TNatural& j );
     Halfedge_handle create_diagonal( const TNatural& i, const TNatural& j );
     Face_handle fill_hole( Halfedge_handle h );
+    void triangulate( );
 
   protected:
     HDS* m_DS { nullptr };

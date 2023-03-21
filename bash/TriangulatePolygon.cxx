@@ -13,7 +13,7 @@
 #include <CGAL/property_map.h>
 
 #include <CGAL_EXT/Polygon_decorator.h>
-#include <CGAL_EXT/Polygon_readOBJ.h>
+#include <CGAL_EXT/Polygon_IO_OBJ.h>
 
 // -------------------------------------------------------------------------
 // Types
@@ -48,49 +48,23 @@ int main( int argc, char** argv )
     std::back_inserter( polygon )
     );
 
+  // Create base polygon
+  TTraits::TNatural n = polygon.size( );
+  TDS ds( n, ( n << 2 ) - 6, n - 2 );
+  TPolygon_decorator triang( ds );
+  triang.create_polygon(
+    points.begin( ), points.end( ),
+    polygon.begin( ), polygon.end( )
+    );
+  triang.triangulate( );
 
-  /* TODO
-     points.push_back( TPoint( 10,  0 ) );
-     points.push_back( TPoint(  0,  0 ) );
-     points.push_back( TPoint( 10, 10 ) );
-     points.push_back( TPoint(  0, 10 ) );
-     TTraits::TNatural polygon[] = { 3, 1, 0, 2 };
+  // Save results
+  CGAL_EXT::Polygon_saveOBJ( argv[ 2 ], points.begin( ), points.end( ), ds );
 
-     TDS ds( 4, 10, 2 );
-     TPolygon_decorator triang( ds );
-
-     triang.create_polygon(
-     points.begin( ), points.end( ),
-     polygon, polygon + 4
-     );
-     triang.create_diagonal( 3, 0 );
-
-     for( TDS::Face_handle f: ds.face_handles( ) )
-     {
-     TDS::Halfedge_handle i = f->halfedge( );
-     std::cout
-     << i->vertex( )->point( ) << " "
-     << i->opposite( )->vertex( )->point( ) << std::endl;
-     i = i->next( );
-     while( i != f->halfedge( ) )
-     {
-     std::cout
-     << i->vertex( )->point( ) << " "
-     << i->opposite( )->vertex( )->point( ) << std::endl;
-     i = i->next( );
-     } // end if
-     std::cout << "===========" << std::endl;
-     } // end for
-     std::cout << "Vertices: " << ds.size_of_vertices( ) << std::endl;
-     std::cout << "Edges   : " << ds.size_of_halfedges( ) << std::endl;
-     std::cout << "Faces   : " << ds.size_of_faces( ) << std::endl;
-  */
-
-  /* TODO
-     Polygon_decorator< _K > tr;
-     tr.LoadFromOBJ( argv[ 1 ] );
-     tr.SaveToOBJ( "out.obj" );
-  */
+  // Show a final report
+  std::cout << "Vertices: " << ds.size_of_vertices( ) << std::endl;
+  std::cout << "Edges   : " << ds.size_of_halfedges( ) << std::endl;
+  std::cout << "Faces   : " << ds.size_of_faces( ) << std::endl;
 
   return( EXIT_SUCCESS );
 }

@@ -232,6 +232,13 @@ fill_hole( Halfedge_handle h )
   return( f );
 }
 
+// -------------------------------------------------------------------------
+template< class _HDS >
+void CGAL_EXT::Polygon_decorator< _HDS >::
+triangulate( )
+{
+}
+
 #endif // __CGAL_EXT__Polygon_decorator__hxx__
 
 // eof - $RCSfile$

@@ -50,13 +50,13 @@ def edge_inside( P, s, e, T = None ):
     i = s
     while i != e and inside:
       z = Helpers.side( ( P[ T[ s ] ], P[ T[ e ] ] ), P[ T[ i ] ] )
-      inside = inside and ( uC[ i ] == 'negative' ) and ( z == 'right' )
+      inside = inside and ( uC[ i ] == 'negative' )
       i = ( i + 1 ) % len( uC )
     # end while
     i = e
     while i != s and inside:
       z = Helpers.side( ( P[ T[ s ] ], P[ T[ e ] ] ), P[ T[ i ] ] )
-      inside = inside and ( uC[ i ] == 'positive' ) and ( z == 'left' )
+      inside = inside and ( uC[ i ] == 'positive' )
       i = ( i + 1 ) % len( uC )
     # end while
     return inside
