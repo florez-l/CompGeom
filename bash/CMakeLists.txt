@@ -11,4 +11,7 @@ target_link_libraries(CompGeom_TriangulateSquare CGAL::CGAL)
 add_executable(CompGeom_TriangulatePolygon TriangulatePolygon.cxx)
 target_link_libraries(CompGeom_TriangulatePolygon CGAL::CGAL)
 
+add_executable(CompGeom_MeshSphere MeshSphere.cxx)
+target_link_libraries(CompGeom_MeshSphere CGAL::CGAL)
+
 ## eof - CMakeLists.txt
