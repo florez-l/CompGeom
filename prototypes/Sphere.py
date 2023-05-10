@@ -83,97 +83,36 @@ n, Pr, Pt, tr_xyz = transformation_to_XY(
   )
 x2, x3, y3, x4, y4, z4 = tr_xyz
 
-# Circumcircle center
-cc_C = ( Pr @ numpy.matrix( [ x2, ( ( x3 ** 2 ) + ( y3 ** 2 ) - ( x2 * x3 ) ) / y3, 0.0 ] ).T ).T + Pt
+# Circumcircle and circumsphere
+cc_x = cs_x = x2 * 0.5
+cc_y = cs_y = ( ( x2 * x3 ) - ( x3 ** 2 ) - ( y3 ** 2 ) ) / ( 2.0 * y3 )
+cs_z = ( ( x2 * ( ( x3 * y4 ) - ( x4 * y3 ) ) ) - ( ( y4 * ( ( x3 ** 2 ) + ( y3 ** 2 ) ) ) - ( y3 * ( ( x4 ** 2 ) + ( y4 ** 2 ) + ( z4 ** 2 ) ) ) ) ) / ( 2.0 * y3 * z4 )
+
+cc_C = numpy.matrix( [ cc_x, cc_y, 0 ] )
+cs_C = numpy.matrix( [ cs_x, cs_y, cs_z ] )
+cc_R = ( cc_C @ cc_C.T )[ 0, 0 ] ** 0.5
+cs_R = ( cs_C @ cs_C.T )[ 0, 0 ] ** 0.5
+
+c_phi = cs_z / cs_R
+s_phi = ( cc_R / cs_R )
+if z4 > 0:
+  s_phi *= -1.0
+# end if
+H = s_phi / cc_R
+
 
 print( '-------------------------------------------' )
 print( 'Real radius:', real_R )
 print( 'Real center:', real_C )
 print( '-------------------------------------------' )
 print( 'Normal:', n )
-print( 'Circumcenter:', cc_C )
+print( 'Circle center:', cc_C )
+print( 'Circle radius:', cc_R )
+print( 'Sphere center:', ( Pr.T @ cs_C.T ).T + Pt )
+print( 'Sphere radius:', cs_R )
 print( '-------------------------------------------' )
-
-
-# o = ( R.T @ numpy.matrix( [ x2 / 2, ( ( x3 ** 2 ) + ( y3 ** 2 ) - ( x2 * x3 ) ) / ( 2 * y3 ) , 0.0 ] ).T ).T + P[ 1 ]
-# r  = ( ( o - P[ 1 ] ) @ ( o - P[ 1 ] ).T )[ 0, 0 ] ** 0.5
-# r += ( ( o - P[ 2 ] ) @ ( o - P[ 2 ] ).T )[ 0, 0 ] ** 0.5
-# r += ( ( o - P[ 3 ] ) @ ( o - P[ 3 ] ).T )[ 0, 0 ] ** 0.5
-# r /= 3.0
-
-# Ma = numpy.ones( ( 4, 4 ) )
-# Ma[ 0, 0 ] = P[ 0 ][ 0, 0 ]
-# Ma[ 0, 1 ] = P[ 0 ][ 0, 1 ]
-# Ma[ 0, 2 ] = P[ 0 ][ 0, 2 ]
-# Ma[ 1, 0 ] = P[ 1 ][ 0, 0 ]
-# Ma[ 1, 1 ] = P[ 1 ][ 0, 1 ]
-# Ma[ 1, 2 ] = P[ 1 ][ 0, 2 ]
-# Ma[ 2, 0 ] = P[ 2 ][ 0, 0 ]
-# Ma[ 2, 1 ] = P[ 2 ][ 0, 1 ]
-# Ma[ 2, 2 ] = P[ 2 ][ 0, 2 ]
-# Ma[ 3, 0 ] = P[ 3 ][ 0, 0 ]
-# Ma[ 3, 1 ] = P[ 3 ][ 0, 1 ]
-# Ma[ 3, 2 ] = P[ 3 ][ 0, 2 ]
-# a = numpy.linalg.det( Ma )
-
-# MD = numpy.ones( ( 4, 4 ) )
-# MD[ 0, 0 ] = ( P[ 0 ] @ P[ 0 ].T )[ 0, 0 ]
-# MD[ 1, 0 ] = ( P[ 1 ] @ P[ 1 ].T )[ 0, 0 ]
-# MD[ 2, 0 ] = ( P[ 2 ] @ P[ 2 ].T )[ 0, 0 ]
-# MD[ 3, 0 ] = ( P[ 3 ] @ P[ 3 ].T )[ 0, 0 ]
-# MD[ 0, 1 ] = P[ 0 ][ 0, 1 ]
-# MD[ 0, 2 ] = P[ 0 ][ 0, 2 ]
-# MD[ 1, 1 ] = P[ 1 ][ 0, 1 ]
-# MD[ 1, 2 ] = P[ 1 ][ 0, 2 ]
-# MD[ 2, 1 ] = P[ 2 ][ 0, 1 ]
-# MD[ 2, 2 ] = P[ 2 ][ 0, 2 ]
-# MD[ 3, 1 ] = P[ 3 ][ 0, 1 ]
-# MD[ 3, 2 ] = P[ 3 ][ 0, 2 ]
-# Ox = numpy.linalg.det( MD ) / ( 2.0 * a )
-
-# MD[ 0, 1 ] = P[ 0 ][ 0, 0 ]
-# MD[ 0, 2 ] = P[ 0 ][ 0, 2 ]
-# MD[ 1, 1 ] = P[ 1 ][ 0, 0 ]
-# MD[ 1, 2 ] = P[ 1 ][ 0, 2 ]
-# MD[ 2, 1 ] = P[ 2 ][ 0, 0 ]
-# MD[ 2, 2 ] = P[ 2 ][ 0, 2 ]
-# MD[ 3, 1 ] = P[ 3 ][ 0, 0 ]
-# MD[ 3, 2 ] = P[ 3 ][ 0, 2 ]
-# Oy = numpy.linalg.det( MD ) / ( -2.0 * a )
-
-# MD[ 0, 1 ] = P[ 0 ][ 0, 0 ]
-# MD[ 0, 2 ] = P[ 0 ][ 0, 1 ]
-# MD[ 1, 1 ] = P[ 1 ][ 0, 0 ]
-# MD[ 1, 2 ] = P[ 1 ][ 0, 1 ]
-# MD[ 2, 1 ] = P[ 2 ][ 0, 0 ]
-# MD[ 2, 2 ] = P[ 2 ][ 0, 1 ]
-# MD[ 3, 1 ] = P[ 3 ][ 0, 0 ]
-# MD[ 3, 2 ] = P[ 3 ][ 0, 1 ]
-# Oz = numpy.linalg.det( MD ) / ( 2.0 * a )
-
-# O = numpy.matrix( [ Ox, Oy, Oz ] )
-# R  = ( ( O - P[ 0 ] ) @ ( O - P[ 0 ] ).T )[ 0, 0 ] ** 0.5
-# R += ( ( O - P[ 1 ] ) @ ( O - P[ 1 ] ).T )[ 0, 0 ] ** 0.5
-# R += ( ( O - P[ 2 ] ) @ ( O - P[ 2 ] ).T )[ 0, 0 ] ** 0.5
-# R += ( ( O - P[ 3 ] ) @ ( O - P[ 3 ] ).T )[ 0, 0 ] ** 0.5
-# R /= 4.0
-
-# print( 'Normal:', n )
-# print( 'Circle:', o, r )
-# print( 'Sphere:', O, R )
-
-# s_phi = ( r / R )
-# if ( ( P[ 1 ] - P[ 0 ] ) @ n.T )[ 0, 0 ] < 0:
-#   s_phi *= -1.0
-# # end if
-
-# o_O = o - O
-# c_phi = ( ( o_O @ o_O.T )[ 0, 0 ] ** 0.5 ) / R
-# if ( o_O @ n.T )[ 0, 0 ] < 0:
-#   c_phi *= -1.0
-# # end if
-
-# print( 'Phi:', c_phi, s_phi, ( c_phi ** 2 ) + ( s_phi ** 2 ) )
-# print( 'H:', s_phi / r )
+print( 'Phi:', c_phi, s_phi )
+print( 'H:', H )
+print( '-------------------------------------------' )
 
 ## eof - $RCSfile$

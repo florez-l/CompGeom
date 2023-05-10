@@ -164,8 +164,8 @@ x_{3}^{2}+y_{3}^{2} & x_{3} & 1
 \end{array}\right|=\left|\begin{array}{ccc}
 0 & 0 & 1\\
 x_{2}^{2} & x_{2} & 1\\
-x_{3}^{2}+y_{3}^{2} & y_{3} & 1
-\end{array}\right|=x_{2}\left(x_{2}y_{3}-x_{3}^{2}-y_{3}^{2}\right)
+x_{3}^{2}+y_{3}^{2} & x_{3} & 1
+\end{array}\right|=x_{2}^{2}x_{3}-x_{2}\left(x_{3}^{2}+y_{3}^{2}\right)
 \]
 
 \end_inset
@@ -176,7 +176,7 @@ x_{3}^{2}+y_{3}^{2} & y_{3} & 1
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\boxed{c_{x}=-\frac{b_{x}}{2a}=-\frac{-x_{2}^{2}y_{3}}{2x_{2}y_{3}}=\frac{x_{2}}{2}}
+\boxed{c_{x}=-\frac{b_{x}}{2a}=\frac{x_{2}}{2}}
 \]
 
 \end_inset
@@ -184,7 +184,7 @@ x_{3}^{2}+y_{3}^{2} & y_{3} & 1
 
 \begin_inset Formula 
 \[
-\boxed{c_{y}=-\frac{b_{y}}{2a}=-\frac{x_{2}\left(x_{2}y_{3}-x_{3}^{2}-y_{3}^{2}\right)}{2x_{2}y_{3}}=-\frac{\left(x_{2}y_{3}-x_{3}^{2}-y_{3}^{2}\right)}{2y_{3}}}
+\boxed{c_{y}=-\frac{b_{y}}{2a}=\frac{x_{2}\left(x_{3}^{2}+y_{3}^{2}\right)-x_{2}^{2}x_{3}}{2x_{2}y_{3}}=\frac{x_{3}^{2}+y_{3}^{2}-x_{2}x_{3}}{2y_{3}}}
 \]
 
 \end_inset
@@ -244,6 +244,14 @@ x_{4}^{2}+y_{4}^{2}+z_{4}^{2} &  & y_{4} &  & z_{4} &  & 1
 
 \begin_inset Formula 
 \[
+\boxed{C_{x}=\frac{D_{x}}{2a}=\frac{x_{2}}{2}}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
 D_{y}=-\left|\begin{array}{ccccccc}
 x_{1}^{2}+y_{1}^{2}+z_{1}^{2} &  & x_{1} &  & z_{1} &  & 1\\
 \\
@@ -260,7 +268,15 @@ x_{2}^{2} &  & x_{2} &  & 0 &  & 1\\
 x_{3}^{2}+y_{3}^{2} &  & x_{3} &  & 0 &  & 1\\
 \\
 x_{4}^{2}+y_{4}^{2}+z_{4}^{2} &  & x_{4} &  & z_{4} &  & 1
-\end{array}\right|=x_{2}z_{4}\left(x_{2}x_{3}-x_{3}^{2}-y_{3}^{2}\right)
+\end{array}\right|=x_{2}z_{4}\left(x_{3}^{2}+y_{3}^{2}-x_{2}x_{3}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\boxed{C_{y}=\frac{D_{y}}{2a}=\frac{x_{2}x_{3}-x_{3}^{2}-y_{3}^{2}}{2y_{3}}}
 \]
 
 \end_inset
@@ -284,7 +300,15 @@ x_{2}^{2} &  & x_{2} &  & 0 &  & 1\\
 x_{3}^{2}+y_{3}^{2} &  & x_{3} &  & y_{3} &  & 1\\
 \\
 x_{4}^{2}+y_{4}^{2}+z_{4}^{2} &  & x_{4} &  & y_{4} &  & 1
-\end{array}\right|=
+\end{array}\right|=x_{2}\left(y_{4}\left(x_{3}^{2}+y_{3}^{2}\right)-y_{3}\left(x_{4}^{2}+y_{4}^{2}+z_{4}^{2}\right)\right)-x_{2}^{2}\left(x_{3}y_{4}-x_{4}y_{3}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\boxed{C_{z}=\frac{D_{z}}{2a}=\frac{x_{2}\left(x_{3}y_{4}-x_{4}y_{3}\right)-\left(y_{4}\left(x_{3}^{2}+y_{3}^{2}\right)-y_{3}\left(x_{4}^{2}+y_{4}^{2}+z_{4}^{2}\right)\right)}{2y_{3}z_{4}}}
 \]
 
 \end_inset
