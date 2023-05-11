@@ -35,7 +35,7 @@ def normal( p1, p2, p3 ):
 # end def
 
 def transformation_to_XY( p1, p2, p3, p4 ):
-  n = normal( P[ 1 ][ 0 ], P[ 2 ][ 0 ], P[ 3 ][ 0 ] )
+  n = normal( p1, p2, p3 )
 
   ct = n[ 2 ]
   st = ( ( n[ 0 ] ** 2 ) + ( n[ 1 ] ** 2 ) ) ** 0.5
@@ -65,23 +65,22 @@ def transformation_to_XY( p1, p2, p3, p4 ):
   Rx[ 2, 2 ] = 1
   R = Rx @ R
 
-  p3 = R @ ( p3 - p1 ).T
-  x3 = p3[ 0, 0 ]
-  y3 = p3[ 1, 0 ]
-
-  p4 = R @ ( p4 - p1 ).T
-  x4 = p4[ 0, 0 ]
-  y4 = p4[ 1, 0 ]
-  z4 = p4[ 2, 0 ]
+  t3 = ( p3 - p1 ) @ R.T
+  t4 = ( p4 - p1 ) @ R.T
+  x3 = t3[ 0, 0 ]
+  y3 = t3[ 0, 1 ]
+  x4 = t4[ 0, 0 ]
+  y4 = t4[ 0, 1 ]
+  z4 = t4[ 0, 2 ]
 
   return [ n, R, p1, [ x2, x3, y3, x4, y4, z4 ] ]
 # end def
 
 real_R, real_C, P = create_points_in_sphere( )
-n, Pr, Pt, tr_xyz = transformation_to_XY(
+
+n, Pr, Pt, [ x2, x3, y3, x4, y4, z4 ] = transformation_to_XY(
   P[ 1 ][ 0 ], P[ 2 ][ 0 ], P[ 3 ][ 0 ], P[ 0 ][ 0 ]
   )
-x2, x3, y3, x4, y4, z4 = tr_xyz
 
 # Circumcircle center
 cc_C = ( Pr @ numpy.matrix( [ x2, ( ( x3 ** 2 ) + ( y3 ** 2 ) - ( x2 * x3 ) ) / y3, 0.0 ] ).T ).T + Pt
