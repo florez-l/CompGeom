@@ -85,7 +85,8 @@ n, Pr, Pt, [ x2, x3, y3, x4, y4, z4 ] = transformation_to_XY(
 # Circumcircle and circumsphere
 cc_x = cs_x = x2 * 0.5
 cc_y = cs_y = ( ( x2 * x3 ) - ( x3 ** 2 ) - ( y3 ** 2 ) ) / ( 2.0 * y3 )
-cs_z = ( ( x2 * ( ( x3 * y4 ) - ( x4 * y3 ) ) ) - ( ( y4 * ( ( x3 ** 2 ) + ( y3 ** 2 ) ) ) - ( y3 * ( ( x4 ** 2 ) + ( y4 ** 2 ) + ( z4 ** 2 ) ) ) ) ) / ( 2.0 * y3 * z4 )
+cs_y *= -1
+cs_z = ( ( y3 * ( ( x4 ** 2 ) + ( y4 ** 2 ) + ( z4 ** 2 ) - ( x2 * x4 ) ) ) - ( y4 * ( ( y3 ** 2 ) + ( x2 * x3 ) - ( x3 ** 2 ) ) ) ) / ( 2.0 * y3 * z4 )
 
 cc_C = numpy.matrix( [ cc_x, cc_y, 0 ] )
 cs_C = numpy.matrix( [ cs_x, cs_y, cs_z ] )
@@ -107,7 +108,7 @@ print( '-------------------------------------------' )
 print( 'Normal:', n )
 print( 'Circle center:', cc_C )
 print( 'Circle radius:', cc_R )
-print( 'Sphere center:', ( Pr.T @ cs_C.T ).T + Pt )
+print( 'Sphere center:', ( cs_C @ Pr ) + Pt )
 print( 'Sphere radius:', cs_R )
 print( '-------------------------------------------' )
 print( 'Phi:', c_phi, s_phi )

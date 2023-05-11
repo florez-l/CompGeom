@@ -308,7 +308,7 @@ x_{4}^{2}+y_{4}^{2}+z_{4}^{2} &  & x_{4} &  & y_{4} &  & 1
 
 \begin_inset Formula 
 \[
-\boxed{C_{z}=\frac{D_{z}}{2a}=\frac{x_{2}\left(x_{3}y_{4}-x_{4}y_{3}\right)-\left(y_{4}\left(x_{3}^{2}+y_{3}^{2}\right)-y_{3}\left(x_{4}^{2}+y_{4}^{2}+z_{4}^{2}\right)\right)}{2y_{3}z_{4}}}
+\boxed{C_{z}=\frac{D_{z}}{2a}=\frac{y_{3}\left(x_{4}^{2}+y_{4}^{2}+z_{4}^{2}-x_{2}x_{4}\right)-y_{4}\left(y_{3}^{2}+x_{2}x_{3}-x_{3}^{2}\right)}{2y_{3}z_{4}}}
 \]
 
 \end_inset
