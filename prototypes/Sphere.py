@@ -80,9 +80,49 @@ def transformation_to_XY( p1, p2, p3, p4 ):
 
 real_R, real_C, P = create_points_in_sphere( )
 
-n, Pr, Pt, [ x2, x3, y3, x4, y4, z4 ] = transformation_to_XY(
-  P[ 1 ][ 0 ], P[ 2 ][ 0 ], P[ 3 ][ 0 ], P[ 0 ][ 0 ]
-  )
+a = numpy.ones( ( 4, 4 ) )
+a[ 0 , 0 : 3 ] = P[ 1 ]
+a[ 1 , 0 : 3 ] = P[ 2 ]
+a[ 2 , 0 : 3 ] = P[ 3 ]
+a[ 3 , 0 : 3 ] = P[ 0 ]
+
+Dx = numpy.ones( ( 4, 4 ) )
+Dy = numpy.ones( ( 4, 4 ) )
+Dz = numpy.ones( ( 4, 4 ) )
+
+Dx[ 0, 0 ] = Dy[ 0, 0 ] = Dz[ 0, 0 ] = ( P[ 1 ] @ P[ 1 ].T )[ 0, 0 ]
+Dx[ 1, 0 ] = Dy[ 1, 0 ] = Dz[ 1, 0 ] = ( P[ 2 ] @ P[ 2 ].T )[ 0, 0 ]
+Dx[ 2, 0 ] = Dy[ 2, 0 ] = Dz[ 2, 0 ] = ( P[ 3 ] @ P[ 3 ].T )[ 0, 0 ]
+Dx[ 3, 0 ] = Dy[ 3, 0 ] = Dz[ 3, 0 ] = ( P[ 0 ] @ P[ 0 ].T )[ 0, 0 ]
+
+Dx[ 0, 1 ] = P[ 1 ][ 0, 1 ] ; Dx[ 0, 2 ] = P[ 1 ][ 0, 2 ]
+Dx[ 1, 1 ] = P[ 2 ][ 0, 1 ] ; Dx[ 1, 2 ] = P[ 2 ][ 0, 2 ]
+Dx[ 2, 1 ] = P[ 3 ][ 0, 1 ] ; Dx[ 2, 2 ] = P[ 3 ][ 0, 2 ]
+Dx[ 3, 1 ] = P[ 0 ][ 0, 1 ] ; Dx[ 3, 2 ] = P[ 0 ][ 0, 2 ]
+
+Dy[ 0, 1 ] = P[ 1 ][ 0, 0 ] ; Dy[ 0, 2 ] = P[ 1 ][ 0, 2 ]
+Dy[ 1, 1 ] = P[ 2 ][ 0, 0 ] ; Dy[ 1, 2 ] = P[ 2 ][ 0, 2 ]
+Dy[ 2, 1 ] = P[ 3 ][ 0, 0 ] ; Dy[ 2, 2 ] = P[ 3 ][ 0, 2 ]
+Dy[ 3, 1 ] = P[ 0 ][ 0, 0 ] ; Dy[ 3, 2 ] = P[ 0 ][ 0, 2 ]
+
+Dz[ 0, 1 ] = P[ 1 ][ 0, 0 ] ; Dz[ 0, 2 ] = P[ 1 ][ 0, 1 ]
+Dz[ 1, 1 ] = P[ 2 ][ 0, 0 ] ; Dz[ 1, 2 ] = P[ 2 ][ 0, 1 ]
+Dz[ 2, 1 ] = P[ 3 ][ 0, 0 ] ; Dz[ 2, 2 ] = P[ 3 ][ 0, 1 ]
+Dz[ 3, 1 ] = P[ 0 ][ 0, 0 ] ; Dz[ 3, 2 ] = P[ 0 ][ 0, 1 ]
+
+da = 2.0 * numpy.linalg.det( a )
+dDx =  numpy.linalg.det( Dx )
+dDy = -numpy.linalg.det( Dy )
+dDz =  numpy.linalg.det( Dz )
+
+print( '---------------------------------' )
+print( dDx / da , dDy / da, dDz / da )
+print( '---------------------------------' )
+
+
+#n, Pr, Pt, [ x2, x3, y3, x4, y4, z4 ] = transformation_to_XY(
+#  P[ 1 ][ 0 ], P[ 2 ][ 0 ], P[ 3 ][ 0 ], P[ 0 ][ 0 ]
+#  )
 
 # print( '1 -->', ( P[ 1 ][ 0 ] - Pt ) @ Pr.T )
 # print( '2 -->', ( P[ 2 ][ 0 ] - Pt ) @ Pr.T, x2 )
@@ -91,43 +131,43 @@ n, Pr, Pt, [ x2, x3, y3, x4, y4, z4 ] = transformation_to_XY(
 # print( P )
 
 # Circumcircle and circumsphere
-cx = x2 * 0.5
-cy = ( ( x3 ** 2 ) + ( y3 ** 2 ) - ( x2 * x3 ) ) / ( 2.0 * y3 )
-Cz = ( ( y3 * z4 * z4 ) + ( y3 * ( ( x4 ** 2 ) + ( y4 ** 2 ) - ( x2 * x4 ) ) ) - ( y3 * y3 * y4 ) + ( y4 * ( ( x2 * x3 ) - ( x3 ** 2 ) ) ) ) / ( 2.0 * y3 * z4 )
+#cx = x2 * 0.5
+#cy = ( ( x3 ** 2 ) + ( y3 ** 2 ) - ( x2 * x3 ) ) / ( 2.0 * y3 )
+#Cz = ( ( y3 * z4 * z4 ) + ( y3 * ( ( x4 ** 2 ) + ( y4 ** 2 ) - ( x2 * x4 ) ) ) - ( y3 * y3 * y4 ) + ( y4 * ( ( x2 * x3 ) - ( x3 ** 2 ) ) ) ) / ( 2.0 * y3 * z4 )
 # cc_y = cs_y = ( ( x2 * x3 ) - ( x3 ** 2 ) - ( y3 ** 2 ) ) / ( 2.0 * y3 )
 # cs_y *= -1
 # cs_z = ( ( y3 * ( ( x4 ** 2 ) + ( y4 ** 2 ) + ( z4 ** 2 ) - ( x2 * x4 ) ) ) - ( y4 * ( ( y3 ** 2 ) + ( x2 * x3 ) - ( x3 ** 2 ) ) ) ) / ( 2.0 * y3 * z4 )
 
-cc = numpy.matrix( [ cx, cy, 0 ] )
-sc = numpy.matrix( [ cx, -cy, Cz ] )
+#cc = numpy.matrix( [ cx, cy, 0 ] )
+#sc = numpy.matrix( [ cx, -cy, Cz ] )
 
-print( 'circle --> ', cc, ( cc @ Pr ) + Pt )
-print( 'p1 --> ', ( ( ( cc @ Pr ) + Pt - P[ 1 ][ 0 ] ) @ ( ( cc @ Pr ) + Pt - P[ 1 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
-print( 'p2 --> ', ( ( ( cc @ Pr ) + Pt - P[ 2 ][ 0 ] ) @ ( ( cc @ Pr ) + Pt - P[ 2 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
-print( 'p3 --> ', ( ( ( cc @ Pr ) + Pt - P[ 3 ][ 0 ] ) @ ( ( cc @ Pr ) + Pt - P[ 3 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
-print( 'sphere --> ', sc, ( sc @ Pr ) + Pt )
-print( 'p1 --> ', ( ( ( sc @ Pr ) + Pt - P[ 1 ][ 0 ] ) @ ( ( sc @ Pr ) + Pt - P[ 1 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
-print( 'p2 --> ', ( ( ( sc @ Pr ) + Pt - P[ 2 ][ 0 ] ) @ ( ( sc @ Pr ) + Pt - P[ 2 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
-print( 'p3 --> ', ( ( ( sc @ Pr ) + Pt - P[ 3 ][ 0 ] ) @ ( ( sc @ Pr ) + Pt - P[ 3 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
-print( 'p4 --> ', ( ( ( sc @ Pr ) + Pt - P[ 0 ][ 0 ] ) @ ( ( sc @ Pr ) + Pt - P[ 0 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
+# print( 'circle --> ', cc, ( cc @ Pr ) + Pt )
+# print( 'p1 --> ', ( ( ( cc @ Pr ) + Pt - P[ 1 ][ 0 ] ) @ ( ( cc @ Pr ) + Pt - P[ 1 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
+# print( 'p2 --> ', ( ( ( cc @ Pr ) + Pt - P[ 2 ][ 0 ] ) @ ( ( cc @ Pr ) + Pt - P[ 2 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
+# print( 'p3 --> ', ( ( ( cc @ Pr ) + Pt - P[ 3 ][ 0 ] ) @ ( ( cc @ Pr ) + Pt - P[ 3 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
+# print( 'sphere --> ', sc, ( sc @ Pr ) + Pt )
+# print( 'p1 --> ', ( ( ( sc @ Pr ) + Pt - P[ 1 ][ 0 ] ) @ ( ( sc @ Pr ) + Pt - P[ 1 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
+# print( 'p2 --> ', ( ( ( sc @ Pr ) + Pt - P[ 2 ][ 0 ] ) @ ( ( sc @ Pr ) + Pt - P[ 2 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
+# print( 'p3 --> ', ( ( ( sc @ Pr ) + Pt - P[ 3 ][ 0 ] ) @ ( ( sc @ Pr ) + Pt - P[ 3 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
+# print( 'p4 --> ', ( ( ( sc @ Pr ) + Pt - P[ 0 ][ 0 ] ) @ ( ( sc @ Pr ) + Pt - P[ 0 ][ 0 ] ).T )[ 0, 0 ] ** 0.5 )
 
-print( '----------------------------------' ) 
-print( 'p1 --> ', ( sc @ sc.T )[ 0, 0 ] ** 0.5 )
-print( 'p2 --> ', ( ( sc - numpy.matrix( [ x2, 0, 0 ] ) ) @ ( sc - numpy.matrix( [ x2, 0, 0 ] ) ).T )[ 0, 0 ] ** 0.5 )
-print( 'p3 --> ', ( ( sc - numpy.matrix( [ x3, y3, 0 ] ) ) @ ( sc - numpy.matrix( [ x3, y3, 0 ] ) ).T )[ 0, 0 ] ** 0.5 )
-print( 'p4 --> ', ( ( sc - numpy.matrix( [ x4, y4, z4 ] ) ) @ ( sc - numpy.matrix( [ x4, y4, z4 ] ) ).T )[ 0, 0 ] ** 0.5 )
+# print( '----------------------------------' ) 
+# print( 'p1 --> ', ( sc @ sc.T )[ 0, 0 ] ** 0.5 )
+# print( 'p2 --> ', ( ( sc - numpy.matrix( [ x2, 0, 0 ] ) ) @ ( sc - numpy.matrix( [ x2, 0, 0 ] ) ).T )[ 0, 0 ] ** 0.5 )
+# print( 'p3 --> ', ( ( sc - numpy.matrix( [ x3, y3, 0 ] ) ) @ ( sc - numpy.matrix( [ x3, y3, 0 ] ) ).T )[ 0, 0 ] ** 0.5 )
+# print( 'p4 --> ', ( ( sc - numpy.matrix( [ x4, y4, z4 ] ) ) @ ( sc - numpy.matrix( [ x4, y4, z4 ] ) ).T )[ 0, 0 ] ** 0.5 )
 
-# cc_C = numpy.matrix( [ cc_x, cc_y, 0 ] )
-# cs_C = numpy.matrix( [ cs_x, cs_y, cs_z ] )
-# cc_R = ( cc_C @ cc_C.T )[ 0, 0 ] ** 0.5
-# cs_R = ( cs_C @ cs_C.T )[ 0, 0 ] ** 0.5
+# # cc_C = numpy.matrix( [ cc_x, cc_y, 0 ] )
+# # cs_C = numpy.matrix( [ cs_x, cs_y, cs_z ] )
+# # cc_R = ( cc_C @ cc_C.T )[ 0, 0 ] ** 0.5
+# # cs_R = ( cs_C @ cs_C.T )[ 0, 0 ] ** 0.5
 
-# c_phi = cs_z / cs_R
-# s_phi = ( cc_R / cs_R )
-# if z4 > 0:
-#   s_phi *= -1.0
-# # end if
-# H = s_phi / cc_R
+# # c_phi = cs_z / cs_R
+# # s_phi = ( cc_R / cs_R )
+# # if z4 > 0:
+# #   s_phi *= -1.0
+# # # end if
+# # H = s_phi / cc_R
 
 
 print( '-------------------------------------------' )
