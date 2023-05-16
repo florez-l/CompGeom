@@ -82,7 +82,18 @@ Points
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\mathbf{p}_{1}=\left[\begin{array}{ccc}
+\mathbf{n}=\frac{\mathbf{p}_{1}\times\mathbf{p}_{2}+\mathbf{p}_{2}\times\mathbf{p}_{3}+\mathbf{p}_{3}\times\mathbf{p}_{1}}{\left|\mathbf{p}_{1}\times\mathbf{p}_{2}+\mathbf{p}_{2}\times\mathbf{p}_{3}+\mathbf{p}_{3}\times\mathbf{p}_{1}\right|}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbf{q}_{1}=\left[\begin{array}{ccc}
 0 & 0 & 0\end{array}\right]
 \]
 
@@ -91,7 +102,7 @@ Points
 
 \begin_inset Formula 
 \[
-\mathbf{p}_{2}=\left[\begin{array}{ccc}
+\mathbf{q}_{2}=\left[\begin{array}{ccc}
 x_{2} & 0 & 0\end{array}\right]
 \]
 
@@ -100,7 +111,7 @@ x_{2} & 0 & 0\end{array}\right]
 
 \begin_inset Formula 
 \[
-\mathbf{p}_{3}=\left[\begin{array}{ccc}
+\mathbf{q}_{3}=\left[\begin{array}{ccc}
 x_{3} & y_{3} & 0\end{array}\right]
 \]
 
@@ -109,7 +120,7 @@ x_{3} & y_{3} & 0\end{array}\right]
 
 \begin_inset Formula 
 \[
-\mathbf{p}_{4}=\left[\begin{array}{ccc}
+\mathbf{q}_{4}=\left[\begin{array}{ccc}
 x_{4} & y_{4} & z_{4}\end{array}\right]
 \]
 
