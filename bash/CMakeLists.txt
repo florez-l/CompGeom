@@ -17,6 +17,7 @@ target_link_libraries(CompGeom_MeshSphere CGAL::CGAL)
 add_executable(CompGeom_MeshToSimplex MeshToSimplex.cxx)
 target_link_libraries(
   CompGeom_MeshToSimplex
+  Eigen3::Eigen
   CGAL::CGAL
   CGAL::CGAL_Basic_viewer
   )
