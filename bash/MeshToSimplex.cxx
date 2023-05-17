@@ -205,13 +205,43 @@ int main( int argc, char** argv )
       bx.determinant( ) / ( 2 * a.determinant( ) ),
       by.determinant( ) / ( -2 * a.determinant( ) ),
       0;
+    TReal rc = ( cc.transpose( ) * cc ).array( ).sqrt( )( 0, 0 );
     cc = ( Rxy.transpose( ) * cc ) + v1;
-    TReal cr = ( cc.transpose( ) * cc ).array( ).sqrt( )( 0, 0 );
 
-    std::cout << cc.transpose( ) << std::endl;
-    std::cout << cr << std::endl;
-    
-    return( 1 );
+    std::cout << cc.transpose( ) << " : ";
+    std::cout << rc << std::endl;
+
+    // Circumsphere
+    Eigen::Matrix< TReal, 4, 4 > A, Dx, Dy, Dz;
+    A <<
+      v.transpose( ), 1,
+      v1.transpose( ), 1,
+      v2.transpose( ), 1,
+      v3.transpose( ), 1;
+    Dx <<
+      v.transpose( ) * v, v( 1 ), v( 2 ), 1,
+      v1.transpose( ) * v1, v1( 1 ), v1( 2 ), 1,
+      v2.transpose( ) * v2, v2( 1 ), v2( 2 ), 1,
+      v3.transpose( ) * v3, v3( 1 ), v3( 2 ), 1;
+    Dy <<
+      v.transpose( ) * v, v( 0 ), v( 2 ), 1,
+      v1.transpose( ) * v1, v1( 0 ), v1( 2 ), 1,
+      v2.transpose( ) * v2, v2( 0 ), v2( 2 ), 1,
+      v3.transpose( ) * v3, v3( 0 ), v3( 2 ), 1;
+    Dz <<
+      v.transpose( ) * v, v( 0 ), v( 1 ), 1,
+      v1.transpose( ) * v1, v1( 0 ), v1( 1 ), 1,
+      v2.transpose( ) * v2, v2( 0 ), v2( 1 ), 1,
+      v3.transpose( ) * v3, v3( 0 ), v3( 1 ), 1;
+
+    Eigen::Matrix< TReal, 3, 1 > cs;
+    cs <<
+      Dx.determinant( ) / ( 2 * A.determinant( ) ),
+      Dy.determinant( ) / ( -2 * A.determinant( ) ),
+      Dz.determinant( ) / ( 2 * A.determinant( ) );
+    TReal rs = ( ( cs - v ).transpose( ) * ( cs - v ) ).array( ).sqrt( )( 0, 0 );
+
+    std::cout << cs.transpose( ) << " : " << rs << std::endl;
   } // end for
 
   CGAL::draw( simplex );
